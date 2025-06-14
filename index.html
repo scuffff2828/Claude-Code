@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IRPro - Professional Immunization Assessment">
+    <title>IRPro - Patient Intake Form</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <header class="nav-header">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-shield-virus"></i>
+                    <span>IRPro</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="stage-header">
+                <h1>Patient Information Intake</h1>
+                <p>Complete the 14-field assessment per JoeyDirt333 standard</p>
+            </div>
+
+            <!-- NETLIFY FUNCTION VERSION - PDF + JSON -->
+            <form name="irpro-intake" id="irpro-form" class="intake-form">
+                <!-- Spam-Schutz -->
+                <input type="hidden" name="bot-field" />
+                <input type="hidden" name="form-name" value="irpro-intake" />
+                
+                <div class="form-grid">
+                    <!-- 1. Assessment Type -->
+                    <div class="form-group full-width">
+                        <label for="assessmentType">1. Assessment Type *</label>
+                        <select id="assessmentType" name="assessment_type" required>
+                            <option value="">Select Assessment Type</option>
+                            <option value="California K-12 School">California K-12 School</option>
+                            <option value="US Immigration I-693">US Immigration I-693</option>
+                        </select>
+                    </div>
+
+                    <!-- 2 & 3. Patient Name -->
+                    <div class="form-group">
+                        <label for="firstName">2. First Name *</label>
+                        <input type="text" id="firstName" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">3. Last Name *</label>
+                        <input type="text" id="lastName" name="last_name" required>
+                    </div>
+
+                    <!-- 4. Date of Birth -->
+                    <div class="form-group">
+                        <label for="dateOfBirth">4. Date of Birth *</label>
+                        <input type="date" id="dateOfBirth" name="date_of_birth" required>
+                    </div>
+
+                    <!-- 5. Gender -->
+                    <div class="form-group">
+                        <label for="gender">5. Gender *</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- 6. Grade Entering -->
+                    <div class="form-group">
+                        <label for="gradeEntering">6. Grade Entering</label>
+                        <input type="text" id="gradeEntering" name="grade_entering" placeholder="e.g., K, 1st, 7th, 12th">
+                    </div>
+
+                    <!-- 7. Birth location - Name of school -->
+                    <div class="form-group full-width">
+                        <label for="schoolName">7. Birth location - Name of school</label>
+                        <input type="text" id="schoolName" name="school_name" placeholder="e.g., Lincoln Elementary School">
+                    </div>
+
+                    <!-- 8. Start-Up or Catch-Up -->
+                    <div class="form-group full-width">
+                        <label for="vaccinationType">8. Start-Up or Catch-Up *</label>
+                        <select id="vaccinationType" name="vaccination_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Start-Up">Start-Up (New vaccination series from birth)</option>
+                            <option value="Catch-Up">Catch-Up (Resume existing vaccination schedule)</option>
+                        </select>
+                        <small>Choose <strong>Start-Up</strong> if starting fresh, or <strong>Catch-Up</strong> if you have some vaccinations already.</small>
+                    </div>
+
+                    <!-- Catch-Up Date -->
+                    <div class="form-group" id="catchupDateGroup" style="display: none;">
+                        <label for="nextVaccinationDate">Date to start next vaccination</label>
+                        <input type="date" id="nextVaccinationDate" name="next_vaccination_date">
+                        <small>Select when you want to continue your vaccination schedule.</small>
+                    </div>
+
+                    <!-- 9. Country of Birth -->
+                    <div class="form-group">
+                        <label for="countryOfBirth">9. Country of Birth *</label>
+                        <select id="countryOfBirth" name="country_of_birth" required>
+                            <option value="">Select Country</option>
+                            <option value="United States">United States</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- 10. Previous Immunization Records -->
+                    <div class="form-group">
+                        <label for="previousRecords">10. Previous Immunization Records Available *</label>
+                        <select id="previousRecords" name="previous_records" required>
+                            <option value="">Select Status</option>
+                            <option value="Complete">Complete</option>
+                            <option value="Partial">Partial</option>
+                            <option value="None">None</option>
+                        </select>
+                    </div>
+
+                    <!-- 11. CAIR/MRN -->
+                    <div class="form-group full-width">
+                        <label for="cairMrn">11. CAIR/MRN</label>
+                        <input type="text" id="cairMrn" name="cair_mrn" placeholder="e.g., CA123456789 or leave blank">
+                        <small><strong>CAIR preferred</strong> (California Immunization Registry). MRN is found on your insurance card. Leave blank if you don't have either - one will be assigned.</small>
+                    </div>
+
+                    <!-- 12. Medical Conditions/Allergies -->
+                    <div class="form-group full-width">
+                        <label for="allergiesReactions">12. Allergies or Reactions to Vaccines? *</label>
+                        <select id="allergiesReactions" name="allergies_reactions" required>
+                            <option value="">Select option</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <!-- If yes, list details -->
+                    <div class="form-group full-width" id="allergyDetailsGroup" style="display: none;">
+                        <label for="allergyDetails">If yes, list details.</label>
+                        <textarea id="allergyDetails" name="allergy_details" rows="3" placeholder="Please describe specific allergies or reactions to vaccines..."></textarea>
+                    </div>
+
+                    <!-- 13. Hospital Birth -->
+                    <div class="form-group full-width">
+                        <label>13. Hospital Birth? *</label>
+                        <div style="display: flex; gap: 20px;">
+                            <label><input type="radio" name="hospital_birth" value="Yes" required> Yes</label>
+                            <label><input type="radio" name="hospital_birth" value="No" required> No</label>
+                        </div>
+                    </div>
+
+                    <!-- Hospital Birth Details -->
+                    <div class="form-group full-width" id="hospitalDetailsGroup" style="display: none;">
+                        <label for="hospitalDetails">If yes to hospital birth, name, city and state of hospital</label>
+                        <input type="text" id="hospitalDetails" name="hospital_details" placeholder="e.g., Mercy Hospital, Los Angeles, CA">
+                    </div>
+
+                    <!-- Physician to use for record -->
+                    <div class="form-group full-width">
+                        <label for="physicianRecord">Physician to use for record – Name and address</label>
+                        <textarea id="physicianRecord" name="physician_record" rows="3" placeholder="e.g., Dr. Smith, 123 Main St, City, State 12345"></textarea>
+                    </div>
+
+                    <!-- 14. Email Address -->
+                    <div class="form-group full-width">
+                        <label for="email">14. Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <!-- Developer Mode Hidden Field -->
+                    <input type="hidden" id="developerMode" name="developer_mode" value="false">
+
+                    <!-- Payment Information -->
+                    <div class="form-group full-width">
+                        <div class="payment-section">
+                            <div class="payment-header-main">
+                                <i class="fas fa-credit-card"></i>
+                                <h3>Secure Payment</h3>
+                            </div>
+                            <p class="payment-subtitle">$50 Assessment Fee - Professional Immunization Consultation</p>
+                            
+                            <div class="payment-options">
+                                <!-- Primary PayPal Option -->
+                                <div class="payment-option primary-payment">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-paypal"></i>
+                                    </div>
+                                    <div class="payment-content">
+                                        <h4>Pay with PayPal</h4>
+                                        <p>Most secure and trusted payment method</p>
+                                        <ul class="payment-benefits">
+                                            <li>Instant payment confirmation</li>
+                                            <li>Buyer protection included</li>
+                                            <li>No need to share card details</li>
+                                        </ul>
+                                    </div>
+                                    <a href="https://www.paypal.com/donate/?business=seyyidsahin2828@gmail.com&amount=50&currency_code=USD" target="_blank" class="btn-payment btn-paypal-main">
+                                        <i class="fab fa-paypal"></i>
+                                        Pay $50 with PayPal
+                                    </a>
+                                </div>
+
+                                <!-- Secondary Credit Card Option -->
+                                <div class="payment-option secondary-payment">
+                                    <div class="payment-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="payment-content">
+                                        <h4>Credit or Debit Card</h4>
+                                        <p>Visa, Mastercard, American Express</p>
+                                    </div>
+                                    <a href="https://buy.stripe.com/test_14k29m0YP0Fx6sg288" target="_blank" class="btn-payment btn-card">
+                                        <i class="fas fa-credit-card"></i>
+                                        Pay $50 with Card
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="payment-footer">
+                                <div class="trust-indicators">
+                                    <div class="trust-item">
+                                        <i class="fas fa-shield-check"></i>
+                                        <span>256-bit SSL Encryption</span>
+                                    </div>
+                                    <div class="trust-item">
+                                        <i class="fas fa-lock"></i>
+                                        <span>PCI DSS Compliant</span>
+                                    </div>
+                                    <div class="trust-item">
+                                        <i class="fas fa-user-shield"></i>
+                                        <span>HIPAA Secure</span>
+                                    </div>
+                                </div>
+                                <p class="payment-guarantee">
+                                    <i class="fas fa-check-circle"></i>
+                                    Your payment and personal information are protected with industry-leading security standards.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-file-pdf"></i>
+                        Send Assessment with PDF + JSON
+                    </button>
+                </div>
+            </form>
+
+            <!-- Success Message (wird nach Submit angezeigt) -->
+            <div id="successMessage" class="success-message" style="display: none;">
+                <div class="success-content">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Assessment Sent Successfully!</h2>
+                    <p>Your assessment has been sent to seyyidsahin2828@gmail.com and will be reviewed within 24 hours.</p>
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0;">
+                        <h4>📧 Email includes all 14 fields:</h4>
+                        <ul style="text-align: left; margin: 1rem 0;">
+                            <li>Complete patient information</li>
+                            <li>Assessment details and preferences</li>
+                            <li>Medical history and allergies</li>
+                            <li>Developer mode status (if applicable)</li>
+                        </ul>
+                        <h4>What happens next?</h4>
+                        <ul style="text-align: left; margin: 1rem 0;">
+                            <li>Joey will review your assessment within 24 hours</li>
+                            <li>You will receive a detailed immunization plan via email</li>
+                            <li>Payment confirmation: $50 assessment fee via PayPal</li>
+                        </ul>
+                    </div>
+                    <a href="javascript:location.reload()" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-arrow-left"></i>
+                        Submit Another Assessment
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2025 IRPro. Professional Immunization Assessment by JoeyDirt333.</p>
+                <p>All information processed securely via Netlify Forms.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Developer Mode Easter Egg
+        function checkDeveloperMode() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            
+            if (firstName === 'Seyyid' && lastName === 'Mustafa') {
+                document.getElementById('developerMode').value = 'true';
+                generateRandomTestData();
+                console.log('🚀 DEVELOPER MODE ACTIVATED');
+                document.querySelector('.stage-header h1').innerHTML = '🚀 Developer Mode - Random Test Data';
+                document.querySelector('.stage-header h1').style.color = '#ff6b6b';
+            } else {
+                document.getElementById('developerMode').value = 'false';
+                document.querySelector('.stage-header h1').innerHTML = 'Patient Information Intake';
+                document.querySelector('.stage-header h1').style.color = '#000000';
+            }
+        }
+
+        function generateRandomTestData() {
+            const assessmentTypes = ['California K-12 School', 'US Immigration I-693'];
+            const genders = ['Male', 'Female', 'Other'];
+            const countries = ['United States', 'Mexico', 'Canada', 'Other'];
+            const vaccineTypes = ['Start-Up', 'Catch-Up'];
+            const recordStatuses = ['Complete', 'Partial', 'None'];
+            const yesNo = ['Yes', 'No'];
+            
+            const randomDate = new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000);
+            const randomEmail = `test${Math.floor(Math.random() * 1000)}@example.com`;
+            
+            document.getElementById('assessmentType').value = assessmentTypes[Math.floor(Math.random() * assessmentTypes.length)];
+            document.getElementById('dateOfBirth').value = randomDate.toISOString().split('T')[0];
+            document.getElementById('gender').value = genders[Math.floor(Math.random() * genders.length)];
+            document.getElementById('gradeEntering').value = `${Math.floor(Math.random() * 12) + 1}th`;
+            document.getElementById('schoolName').value = 'Test Elementary School';
+            document.getElementById('vaccinationType').value = vaccineTypes[Math.floor(Math.random() * vaccineTypes.length)];
+            document.getElementById('countryOfBirth').value = countries[Math.floor(Math.random() * countries.length)];
+            document.getElementById('previousRecords').value = recordStatuses[Math.floor(Math.random() * recordStatuses.length)];
+            document.getElementById('cairMrn').value = `TEST${Math.floor(Math.random() * 100000)}`;
+            document.getElementById('allergiesReactions').value = yesNo[Math.floor(Math.random() * yesNo.length)];
+            document.getElementById('physicianRecord').value = 'Dr. Test, 123 Test Street, Test City, TC 12345';
+            document.getElementById('email').value = randomEmail;
+            
+            const hospitalBirth = yesNo[Math.floor(Math.random() * yesNo.length)];
+            document.querySelector(`input[name="hospital_birth"][value="${hospitalBirth}"]`).checked = true;
+            
+            if (document.getElementById('allergiesReactions').value === 'Yes') {
+                document.getElementById('allergyDetailsGroup').style.display = 'block';
+                document.getElementById('allergyDetails').value = 'Test allergy details for developer mode';
+            }
+            
+            if (hospitalBirth === 'Yes') {
+                document.getElementById('hospitalDetailsGroup').style.display = 'block';
+                document.getElementById('hospitalDetails').value = 'Test Hospital, Test City, TC';
+            }
+            
+            if (document.getElementById('vaccinationType').value === 'Catch-Up') {
+                document.getElementById('catchupDateGroup').style.display = 'block';
+                document.getElementById('nextVaccinationDate').value = new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            }
+        }
+
+        // Event listeners
+        document.getElementById('firstName').addEventListener('input', checkDeveloperMode);
+        document.getElementById('lastName').addEventListener('input', checkDeveloperMode);
+
+        // Frontend angepasst - per JavaScript als JSON an Function
+        document.querySelector('form[name="irpro-intake"]').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            console.log('🚀 Form submitted, sending to Netlify Function...');
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF + JSON...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData(this);
+                const json = Object.fromEntries(formData.entries());
+                
+                // Remove unwanted fields
+                delete json['bot-field'];
+                delete json['form-name'];
+                
+                console.log('📋 Sending data:', json);
+                
+                const response = await fetch('/.netlify/functions/sendMail', {
+                    method: 'POST',
+                    body: JSON.stringify(json),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('✅ Success! PDF and JSON email sent');
+                    
+                    // Update success message
+                    const successContent = document.querySelector('.success-content');
+                    successContent.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        <h2>${result.developerMode ? '🚀 Developer Mode Test Complete!' : 'Assessment Sent with PDF + JSON!'}</h2>
+                        <p>Your assessment has been sent to seyyidsahin2828@gmail.com with professional attachments.</p>
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0;">
+                            <h4>📎 Email includes:</h4>
+                            <ul style="text-align: left; margin: 1rem 0;">
+                                <li>📄 Professional PDF assessment report</li>
+                                <li>💾 Complete JSON data file</li>
+                                <li>🆔 Submission ID: ${result.submissionId}</li>
+                                ${result.developerMode ? '<li>🚀 Developer mode test data</li>' : ''}
+                            </ul>
+                        </div>
+                        <a href="javascript:location.reload()" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-arrow-left"></i>
+                            Submit Another Assessment
+                        </a>
+                    `;
+                    
+                    // Success-Handling
+                    document.querySelector('.intake-form').style.display = 'none';
+                    document.querySelector('.stage-header').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    window.scrollTo(0, 0);
+                    
+                } else {
+                    alert('Fehler beim Senden: ' + result.error);
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                alert('Fehler beim Senden');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Conditional field logic
+        document.getElementById('allergiesReactions').addEventListener('change', function() {
+            const allergyDetailsGroup = document.getElementById('allergyDetailsGroup');
+            if (this.value === 'Yes') {
+                allergyDetailsGroup.style.display = 'block';
+            } else {
+                allergyDetailsGroup.style.display = 'none';
+            }
+        });
+
+        document.getElementById('vaccinationType').addEventListener('change', function() {
+            const catchupDateGroup = document.getElementById('catchupDateGroup');
+            if (this.value === 'Catch-Up') {
+                catchupDateGroup.style.display = 'block';
+            } else {
+                catchupDateGroup.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('input[name="hospital_birth"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const hospitalDetailsGroup = document.getElementById('hospitalDetailsGroup');
+                if (this.value === 'Yes') {
+                    hospitalDetailsGroup.style.display = 'block';
+                } else {
+                    hospitalDetailsGroup.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "irpro-vercel",
+  "version": "1.0.0",
+  "description": "IRPro - Patient Assessment System with Vercel API",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build required for static files'",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7",
+    "jspdf": "^2.5.1"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
+  },
+  "keywords": ["healthcare", "assessment", "pdf", "email"],
+  "author": "JoeyDirt333",
+  "license": "ISC"
+}
