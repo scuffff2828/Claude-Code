@@ -295,21 +295,8 @@
     </div>
 
     <script>
-        // Ultra-Modern Progressive Enhancement
+        // Professional Form Enhancement
         document.addEventListener('DOMContentLoaded', function() {
-            // Add progressive loading animation to form fields
-            const formGroups = document.querySelectorAll('.form-group');
-            formGroups.forEach((group, index) => {
-                group.style.opacity = '0';
-                group.style.transform = 'translateY(20px)';
-                group.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                
-                setTimeout(() => {
-                    group.style.opacity = '1';
-                    group.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-
             // Add real-time validation feedback
             const inputs = document.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
@@ -406,15 +393,11 @@
             progressFill.style.width = progress + '%';
             progressText.textContent = Math.round(progress) + '%';
             
-            // Add completion celebration
+            // Simple completion indicator
             if (progress === 100) {
                 progressBar.classList.add('completed');
-                setTimeout(() => {
-                    progressBar.style.animation = 'glow 1s ease-in-out';
-                }, 300);
             } else {
                 progressBar.classList.remove('completed');
-                progressBar.style.animation = '';
             }
         }
 
