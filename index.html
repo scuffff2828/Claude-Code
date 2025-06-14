@@ -295,7 +295,130 @@
     </div>
 
     <script>
-        // Developer Mode Easter Egg
+        // Ultra-Modern Progressive Enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add progressive loading animation to form fields
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.opacity = '0';
+                group.style.transform = 'translateY(20px)';
+                group.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                setTimeout(() => {
+                    group.style.opacity = '1';
+                    group.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Add real-time validation feedback
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearValidation);
+            });
+
+            // Add form completion progress
+            updateFormProgress();
+            inputs.forEach(input => {
+                input.addEventListener('input', updateFormProgress);
+                input.addEventListener('change', updateFormProgress);
+            });
+        });
+
+        // Real-time Form Validation
+        function validateField(e) {
+            const field = e.target;
+            const formGroup = field.closest('.form-group');
+            
+            if (field.hasAttribute('required') && !field.value.trim()) {
+                showFieldError(formGroup, 'This field is required');
+            } else if (field.type === 'email' && field.value && !isValidEmail(field.value)) {
+                showFieldError(formGroup, 'Please enter a valid email address');
+            } else {
+                showFieldSuccess(formGroup);
+            }
+        }
+
+        function clearValidation(e) {
+            const field = e.target;
+            const formGroup = field.closest('.form-group');
+            const feedback = formGroup.querySelector('.field-feedback');
+            if (feedback) {
+                feedback.remove();
+            }
+            formGroup.classList.remove('field-error', 'field-success');
+        }
+
+        function showFieldError(formGroup, message) {
+            clearValidation({ target: formGroup.querySelector('input, select, textarea') });
+            formGroup.classList.add('field-error');
+            
+            const feedback = document.createElement('div');
+            feedback.className = 'field-feedback error';
+            feedback.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            formGroup.appendChild(feedback);
+        }
+
+        function showFieldSuccess(formGroup) {
+            clearValidation({ target: formGroup.querySelector('input, select, textarea') });
+            formGroup.classList.add('field-success');
+            
+            const feedback = document.createElement('div');
+            feedback.className = 'field-feedback success';
+            feedback.innerHTML = '<i class="fas fa-check-circle"></i> Looks good!';
+            formGroup.appendChild(feedback);
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // Form Progress Tracking
+        function updateFormProgress() {
+            const requiredFields = document.querySelectorAll('[required]');
+            const completedFields = Array.from(requiredFields).filter(field => {
+                if (field.type === 'radio') {
+                    return document.querySelector(`input[name="${field.name}"]:checked`);
+                }
+                return field.value.trim() !== '';
+            });
+
+            const progress = (completedFields.length / requiredFields.length) * 100;
+            
+            // Create or update progress bar
+            let progressBar = document.querySelector('.form-progress');
+            if (!progressBar) {
+                progressBar = document.createElement('div');
+                progressBar.className = 'form-progress';
+                progressBar.innerHTML = `
+                    <div class="progress-label">Form Completion</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                        <div class="progress-text">0%</div>
+                    </div>
+                `;
+                document.querySelector('.intake-form').insertBefore(progressBar, document.querySelector('.form-grid'));
+            }
+
+            const progressFill = progressBar.querySelector('.progress-fill');
+            const progressText = progressBar.querySelector('.progress-text');
+            
+            progressFill.style.width = progress + '%';
+            progressText.textContent = Math.round(progress) + '%';
+            
+            // Add completion celebration
+            if (progress === 100) {
+                progressBar.classList.add('completed');
+                setTimeout(() => {
+                    progressBar.style.animation = 'glow 1s ease-in-out';
+                }, 300);
+            } else {
+                progressBar.classList.remove('completed');
+                progressBar.style.animation = '';
+            }
+        }
+
+        // Enhanced Developer Mode Easter Egg
         function checkDeveloperMode() {
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
